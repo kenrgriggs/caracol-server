@@ -1,7 +1,7 @@
 // Module 6.2 Sequlize Connection
 
 const Sequelize = require('sequelize');
-const sequelize = new Sequelize('cook_db', 'postgres', 'Bl0rkwr3nch!', {
+const sequelize = new Sequelize('cook_db', 'postgres', 'password', {
     host: 'localhost',
     dialect: 'postgres'
 });
