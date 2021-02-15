@@ -3,6 +3,10 @@ let router = express.Router();
 const Recipe = require('../db').import('../models/recipe')
 
 
+//      #################################
+//      ##       WORKING ROUTES        ##
+//      #################################
+
 // Create recipes (Post)
 router.post('/create', function(req, res) {
     // res.send('Hey! This is the create recipes route!')
@@ -37,9 +41,8 @@ router.post('/create', function(req, res) {
     )
 })
 
-
 // Edit recipes (Put)
-router.put('/', function(req, res) {
+router.put('/:entryId', function(req, res) {
     // res.send('Hey! This is the create recipes route!')
     let recipe_name = req.body.recipe.recipe_name;
     let category = req.body.recipe.category;
@@ -69,9 +72,36 @@ router.put('/', function(req, res) {
     )
 })
 
+
+router.get('/:recipeId', function(req, res) {
+    
+    let recipeid = req.recipe.id
+
+    Recipe.findAll({
+        where: { id: recipeid }
+    })
+    .then(recipes => res.status(200).json(recipes))
+    .catch(err => res.status(500).json({ error: err }))
+})
+
+//      #################################
+//      ##       BROKEN ROUTES        ##
+//      #################################
+
+
+
 // Delete recipes (Delete)
 // View recipes by user (Get)
+
+// Get Recipe by ID << Not an assignment requirement >>
+
 // View all recipes (Get)
+router.get('/', function(req, res) {
+    Recipe.findAll()
+    .then(recipes => res.status(200).json(recipes))
+    .catch(err => res.status(500).json({ error: err }))
+})
+
 // View recipes by views (Get)
 // View recipes by category (Get)
 // View by cook time (Stretch-Get)
