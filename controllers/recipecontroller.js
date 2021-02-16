@@ -98,14 +98,14 @@ router.get("/:recipeId", function (req, res) {
 //      #################################
 
 // View recipes by user (Get) << NEEDS TESTING >>
-// router.get("/user", validateSession, (req, res) => {
-//     let userid = req.user.id
-//     Recipe.findAll({
-//         where: { created_by: userid }
-//     })
-//     .then((recipes) => res.status(200).json(recipes))
-//     .catch((err) => res.status(500).json({ error: err }));
-// })                                     
+router.get("/user", (req, res) => {
+    let userid = req.user.id
+    Recipe.findAll({
+        where: { created_by: userid }
+    })
+    .then((recipes) => res.status(200).json(recipes))
+    .catch((err) => res.status(500).json({ error: err }));
+})                                     
 
 // View recipes by views (Get)                      
 router.get("/:category", (req, res) => {
@@ -129,9 +129,5 @@ router.get("/:category", (req, res) => {
 })
 
 // View by cook time (Stretch-Get)
-
-router.get("/recipes", function (req, res) {
-  res.send("Hey! This is a practice route!");
-});
 
 module.exports = router;
