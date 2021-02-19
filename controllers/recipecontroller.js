@@ -1,13 +1,14 @@
 let express = require("express");
 let router = express.Router();
 const Recipe = require("../db").import("../models/recipe");
+const validateSession = require('../middleware/validate-session');
 
 //      #################################
 //      ##       WORKING ROUTES        ##
 //      #################################
 
 // Create recipes (Post)
-router.post("/create", function (req, res) {
+router.post("/create", validateSession, function (req, res) {
   // res.send('Hey! This is the create recipes route!')
   let recipe_name = req.body.recipe.recipe_name;
   let category = req.body.recipe.category;
@@ -16,7 +17,7 @@ router.post("/create", function (req, res) {
   let cook_time = req.body.recipe.cook_time;
   let views = req.body.recipe.views;
   let photo_url = req.body.recipe.photo_url;
-  let created_by = req.body.recipe.created_by; // <-- This needs to be changed to req.user.id at some point
+  let created_by = req.user.id; 
 
   let recipeModel = {
     recipe_name: recipe_name,
@@ -29,16 +30,13 @@ router.post("/create", function (req, res) {
     created_by: created_by,
   };
 
-  Recipe.create(recipeModel).then(function createSuccess(recipe) {
-    // res.send("This is our create-recipes endpoint.")
-    res.json({
-      recipe: recipe,
-    });
-  });
+  Recipe.create(recipeModel)
+  .then(recipe => res.status(200).json(recipe))
+  .catch(err => res.status(500).json({error: err}))
 });
 
 // Edit recipes (Put)
-router.put("/:entryId", function (req, res) {
+router.put("/:entryId", validateSession, function (req, res) {
   // res.send('Hey! This is the create recipes route!')
   let recipe_name = req.body.recipe.recipe_name;
   let category = req.body.recipe.category;
@@ -47,7 +45,7 @@ router.put("/:entryId", function (req, res) {
   let cook_time = req.body.recipe.cook_time;
   let views = req.body.recipe.views;
   let photo_url = req.body.recipe.photo_url;
-  let created_by = req.body.recipe.created_by; // <-- This needs to be changed to req.user.id at some point
+  let created_by = req.user.id; 
 
   let updateRecipeModel = {
     recipe_name: recipe_name,
@@ -62,9 +60,9 @@ router.put("/:entryId", function (req, res) {
 
   const query = { where: { id: req.params.entryId } };
 
-  Recipe.update(updateRecipeModel, query).then(
-    res.send("This is our update-recipes endpoint.")
-  );
+  Recipe.update(updateRecipeModel, query)
+  .then(recipe => res.status(200).json(recipe))
+  .catch(err => res.status(500).json({error: err}))
 });
 
 // View all recipes (Get)
@@ -75,7 +73,8 @@ router.get("/", function (req, res) {
 });
 
 // Delete recipes (Delete)
-router.delete("/delete/:id", function (req, res) {
+// ### ISSUE : Any user can delete any other user's recipes. Don't know how to fix.
+router.delete("/delete/:id", validateSession, function (req, res) {
     const query = { where: { id: req.params.id } };
     
     Recipe.destroy(query)
@@ -83,40 +82,15 @@ router.delete("/delete/:id", function (req, res) {
     .catch((err) => res.status(500).json({ error: err }));
 });
 
-// Get Recipe by ID << Not an assignment requirement >>
-router.get("/:recipeId", function (req, res) {
-  let recipeid = req.recipe.id;
-  Recipe.findAll({
-    where: { id: recipeid },
-  })
-    .then((recipes) => res.status(200).json(recipes))
-    .catch((err) => res.status(500).json({ error: err }));
-});
-
-//      #################################
-//      ##       BROKEN ROUTES        ##
-//      #################################
-
-// View recipes by user (Get) << NEEDS TESTING >>
-router.get("/user", (req, res) => {
-    let userid = req.user.id
+// View recipes by user (Get) 
+router.get("/user", validateSession, function (req, res) {
+    let id = req.user.id;
     Recipe.findAll({
-        where: { created_by: userid }
+        where: { created_by: id }
     })
-    .then((recipes) => res.status(200).json(recipes))
-    .catch((err) => res.status(500).json({ error: err }));
-})                                     
-
-// View recipes by views (Get)                      
-router.get("/:category", (req, res) => {
-    let category = req.params.category
-    Recipe.findAll({
-        where: { category: category }
-    })
-    .then((recipes) => res.status(200).json(recipes))
-    .catch((err) => res.status(500).json({ error: err }));
-})
-
+    .then(recipes => res.status(200).json(recipes))
+    .catch(err => res.status(500).json({ error: err }))
+})  
 
 // View recipes by category (Get)
 router.get("/:category", (req, res) => {
@@ -127,6 +101,38 @@ router.get("/:category", (req, res) => {
     .then((recipes) => res.status(200).json(recipes))
     .catch((err) => res.status(500).json({ error: err }));
 })
+
+// Get Recipe by ID
+router.get("/id/:recipeid", function (req, res) {
+  let recipeid = req.params.recipeid;
+  console.log(recipeid)
+    const query = { where: { id: recipeid } };
+    
+    Recipe.findAll(query)
+    .then((recipes) => res.status(200).json({recipes}))
+    .catch((err) => res.status(500).json({ error: err })); 
+
+});
+
+//      #################################
+//      ##       BROKEN ROUTES        ##
+//      #################################
+
+//      #################################
+//      ##       STRETCH GOALS         ##
+//      #################################
+
+
+// View recipes by views (Get)                      
+// router.get("/:id", (req, res) => {
+//     let category = req.params.category
+//     Recipe.findAll({
+//         where: { category: category }
+//     })
+//     .then((recipes) => res.status(200).json(recipes))
+//     .catch((err) => res.status(500).json({ error: err }));
+// })
+
 
 // View by cook time (Stretch-Get)
 

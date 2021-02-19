@@ -38,8 +38,8 @@ module.exports = (sequelize, DataTypes) => {
             unique: false
         },
         created_by: {
-            type: DataTypes.STRING,
-            allowNull: true,
+            type: DataTypes.INTEGER,
+            allowNull: false,
             unique: false
         },
         
