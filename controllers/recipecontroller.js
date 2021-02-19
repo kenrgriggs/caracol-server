@@ -13,6 +13,7 @@ router.post("/create", validateSession, function (req, res) {
   let recipe_name = req.body.recipe.recipe_name;
   let category = req.body.recipe.category;
   let directions = req.body.recipe.directions;
+  let ingredients = req.body.recipe.ingredients;
   let servings = req.body.recipe.servings;
   let cook_time = req.body.recipe.cook_time;
   let views = req.body.recipe.views;
@@ -23,6 +24,7 @@ router.post("/create", validateSession, function (req, res) {
     recipe_name: recipe_name,
     category: category,
     directions: directions,
+    ingredients: ingredients,
     servings: servings,
     cook_time: cook_time,
     views: views,
@@ -41,6 +43,7 @@ router.put("/:entryId", validateSession, function (req, res) {
   let recipe_name = req.body.recipe.recipe_name;
   let category = req.body.recipe.category;
   let directions = req.body.recipe.directions;
+  let ingredients = req.body.recipe.ingredients;
   let servings = req.body.recipe.servings;
   let cook_time = req.body.recipe.cook_time;
   let views = req.body.recipe.views;
@@ -51,6 +54,7 @@ router.put("/:entryId", validateSession, function (req, res) {
     recipe_name: recipe_name,
     category: category,
     directions: directions,
+    ingredients: ingredients,
     servings: servings,
     cook_time: cook_time,
     views: views,

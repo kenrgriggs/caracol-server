@@ -28,7 +28,7 @@ module.exports = (sequelize, DataTypes) => {
             unique: false
         },
         servings: {
-            type: DataTypes.STRING,
+            type: DataTypes.INTEGER,
             allowNull: true,
             unique: false
         },
