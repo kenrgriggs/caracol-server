@@ -13,12 +13,17 @@ module.exports = (sequelize, DataTypes) => {
             unique: false
         },
         cook_time: {
-            type: DataTypes.STRING,
+            type: DataTypes.INTEGER,
             allowNull: true,
             unique: false
         },
         directions: {
             type: DataTypes.STRING,
+            allowNull: false,
+            unique: false
+        },
+        ingredients: {
+            type: DataTypes.ARRAY(DataTypes.STRING),
             allowNull: false,
             unique: false
         },
@@ -28,7 +33,7 @@ module.exports = (sequelize, DataTypes) => {
             unique: false
         },
         views: {
-            type: DataTypes.STRING,
+            type: DataTypes.INTEGER,
             allowNull: true,
             unique: false
         },
