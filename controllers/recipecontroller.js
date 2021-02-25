@@ -63,7 +63,7 @@ router.put('/:entryId', validateSession, function (req, res) {
 		created_by: created_by,
 	};
 
-	const query = { where: { id: req.params.entryId } };
+	const query = { where: { id: req.params.entryId, created_by: req.user.id } };
 
 	Recipe.update(updateRecipeModel, query)
 		.then((recipe) => res.status(200).json(recipe))
@@ -80,7 +80,7 @@ router.get('/', function (req, res) {
 // Delete recipes (Delete)
 // ### ISSUE : Any user can delete any other user's recipes. Don't know how to fix.
 router.delete('/delete/:id', validateSession, function (req, res) {
-	const query = { where: { id: req.params.id } };
+	const query = { where: { id: req.params.id, created_by: req.user.id } };
 
 	Recipe.destroy(query)
 		.then(() => res.status(200).json({ message: 'Recipe Removed.' }))
