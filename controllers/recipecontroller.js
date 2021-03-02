@@ -113,9 +113,14 @@ router.get('/id/:recipeid', function (req, res) {
   console.log(recipeid);
   const query = { where: { id: recipeid } };
 
-  Recipe.findAll(query)
-    .then((recipes) => res.status(200).json({ recipes }))
-    .catch((err) => res.status(500).json({ error: err }));
+
+	Recipe.findAll(query)
+		.then((recipes) => {
+			res.status(200).json({ recipes });
+			Recipe.update({ views: recipes[0].views + 1 }, query);
+		})
+		.catch((err) => res.status(500).json({ error: err }));
+
 });
 
 //      #################################
