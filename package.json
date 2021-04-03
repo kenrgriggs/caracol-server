@@ -1,7 +1,7 @@
 {
-  "name": "ClickNCook",
+  "name": "caracol-server",
   "version": "1.0.0",
-  "description": "Journal",
+  "description": "Caracol",
   "main": "app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",

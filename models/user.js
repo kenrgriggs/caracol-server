@@ -1,6 +1,16 @@
 const sequelize = require('../db');
 module.exports = (sequelize, DataTypes) => {
 	const User = sequelize.define('user', {
+		firstname: {
+			type: DataTypes.STRING,
+			unique: true,
+			allowNull: false,
+		},
+		lastname: {
+			type: DataTypes.STRING,
+			unique: true,
+			allowNull: false,
+		},
 		username: {
 			type: DataTypes.STRING,
 			allowNull: false,
@@ -21,12 +31,6 @@ module.exports = (sequelize, DataTypes) => {
 			type: DataTypes.STRING,
 			unique: true,
 			allowNull: false,
-			// validate: {
-			// 	len: {
-			// 		args: [5, 18],
-			// 		msg: 'Password must be between 5 and 18 characters.',
-			// 	},
-			// },
 		},
 	});
 	return User;

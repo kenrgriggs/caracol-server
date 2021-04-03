@@ -3,11 +3,18 @@ const User = require('../db').import('../models/user');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
 
+//      #################################
+//      ##       WORKING ROUTES        ##
+//      #################################
+
+// Create new user
 router.post('/register', function (req, res) {
 	User.create({
+		firstname: req.body.firstname,
+		lastname: req.body.lastname,
 		username: req.body.username,
-		password: bcrypt.hashSync(req.body.password, 13),
 		email: req.body.email,
+		password: bcrypt.hashSync(req.body.password, 13),
 	})
 		.then(function createSuccess(user) {
 			let token = jwt.sign({ id: user.id }, process.env.JWT_SECRET, {
@@ -21,36 +28,44 @@ router.post('/register', function (req, res) {
 		})
 		.catch((err) => res.status(500).json({ error: err }));
 });
+
+
+// Login
 router.post('/login', function (req, res) {
 	User.findOne({
 		where: {
 			email: req.body.email,
 		},
 	})
-		.then(function loginSuccess(user) {
-			if (user) {
-				bcrypt.compare(
-					req.body.password,
-					user.password,
-					function (err, matches) {
-						if (matches) {
-							let token = jwt.sign({ id: user.id }, process.env.JWT_SECRET, {
-								expiresIn: 60 * 60 * 24,
-							});
-							res.status(200).json({
-								user: user,
-								message: 'User successfully logged in!',
-								sessionToken: token,
-							});
-						} else {
-							res.status(502).send({ error: 'Login Failed' });
-						}
+	.then(function loginSuccess(user) {
+		if (user) {
+			bcrypt.compare(
+				req.body.password,
+				user.password,
+				function (err, matches) {
+					if (matches) {
+						let token = jwt.sign({ id: user.id }, process.env.JWT_SECRET, {
+							expiresIn: 60 * 60 * 24,
+						});
+						res.status(200).json({
+							user: user,
+							message: 'User successfully logged in!',
+							sessionToken: token,
+						});
+					} else {
+						res.status(502).send({ error: 'Login Failed' });
 					}
+				}
 				);
 			} else {
 				res.status(500).json({ error: 'User does not exist.' });
 			}
 		})
 		.catch((err) => res.status(500).json({ error: err }));
-});
-module.exports = router;
+	});
+	
+	//      #################################
+	//      ##       BROKEN ROUTES        ##
+	//      #################################
+	
+	module.exports = router;
