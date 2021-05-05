@@ -7,7 +7,7 @@ const validateSession = require('../middleware/validate-session');
 //      #################################
 
 // Create project (Post)
-router.post('/create', validateSession, function (req, res) {
+router.post('/', validateSession, function (req, res) {
   // res.send('Hey! This is the create project route!')
   let name = req.body.project.name;
   let category = req.body.project.category;
@@ -40,13 +40,6 @@ router.post('/create', validateSession, function (req, res) {
   .catch((err) => res.status(500).json({ error: err }));
 });
 
-
-
-
-
-
-
-
 // Edit project (Put)
 router.put('/:id', function (req, res) {
 
@@ -67,13 +60,6 @@ router.put('/:id', function (req, res) {
   .catch((error) => res.status(500).json({ error }));
 });
 
-
-
-
-
-
-
-
 // View all project (Get)
 router.get('/', function (req, res) {
   Project.findAll()
@@ -86,10 +72,9 @@ router.get('/', function (req, res) {
 //      #################################
 
 
-
 // Delete project (Delete)
-router.delete('/delete/:id', validateSession, function (req, res) {
-  const query = { where: { id: req.params.id, created_by: req.user.id } };
+router.delete('/:id', function (req, res) {
+  const query = { where: { id: req.params.id } };
   
   Project.destroy(query)
   .then(() => res.status(200).json({ message: 'Project Removed.' }))
