@@ -41,7 +41,7 @@ router.post('/', validateSession, function (req, res) {
 });
 
 // Edit project (Put)
-router.put('/:id', function (req, res) {
+router.put('/:id', validateSession, function (req, res) {
 
   const column = req.body.field
 
@@ -73,7 +73,7 @@ router.get('/', function (req, res) {
 
 
 // Delete project (Delete)
-router.delete('/:id', function (req, res) {
+router.delete('/:id', validateSession, function (req, res) {
   const query = { where: { id: req.params.id } };
   
   Project.destroy(query)
@@ -82,7 +82,7 @@ router.delete('/:id', function (req, res) {
 });
 
 // View project by user (Get)
-router.get('/user', validateSession, function (req, res) {
+router.get('/user', function (req, res) {
   let id = req.user.id;
   Project.findAll({
     where: { created_by: id },

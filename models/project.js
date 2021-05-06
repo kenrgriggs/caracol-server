@@ -13,32 +13,32 @@ module.exports = (sequelize, DataTypes) => {
 			unique: false,
 		},
 		planned: {
-			type: DataTypes.STRING,
+			type: DataTypes.BOOLEAN,
 			allowNull: false,
 			unique: false,
 		},
 		est_startdate: {
-			type: DataTypes.STRING,
+			type: DataTypes.DATE,
 			// defaultValue: DataTypes.NOW,
 			allowNull: false,
 			unique: false,
 		},
 		startdate: {
-			type: DataTypes.STRING,
+			type: DataTypes.DATE,
 			// defaultValue: DataTypes.NOW,
-			allowNull: false,
+			allowNull: true,
 			unique: false,
 		},
 		est_enddate: {
-			type: DataTypes.STRING,
+			type: DataTypes.DATE,
 			// defaultValue: DataTypes.NOW,
 			allowNull: false,
 			unique: false,
 		},
 		enddate: {
-			type: DataTypes.STRING,
+			type: DataTypes.DATE,
 			// defaultValue: DataTypes.NOW,
-			allowNull: false,
+			allowNull: true,
 			unique: false,
 		},
 		description: {
@@ -52,7 +52,7 @@ module.exports = (sequelize, DataTypes) => {
 			unique: false,
 		},
 		hours: {
-			type: DataTypes.STRING,
+			type: DataTypes.INTEGER,
 			allowNull: true,
 			unique: false,
 		},
