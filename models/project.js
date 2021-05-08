@@ -1,4 +1,3 @@
-// const { DataTypes } = require("sequelize/types");
 
 module.exports = (sequelize, DataTypes) => {
 	const Project = sequelize.define('project', {
@@ -19,25 +18,21 @@ module.exports = (sequelize, DataTypes) => {
 		},
 		est_startdate: {
 			type: DataTypes.DATE,
-			// defaultValue: DataTypes.NOW,
 			allowNull: false,
 			unique: false,
 		},
 		startdate: {
 			type: DataTypes.DATE,
-			// defaultValue: DataTypes.NOW,
 			allowNull: true,
 			unique: false,
 		},
 		est_enddate: {
 			type: DataTypes.DATE,
-			// defaultValue: DataTypes.NOW,
 			allowNull: false,
 			unique: false,
 		},
 		enddate: {
 			type: DataTypes.DATE,
-			// defaultValue: DataTypes.NOW,
 			allowNull: true,
 			unique: false,
 		},
