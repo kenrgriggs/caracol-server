@@ -1,5 +1,5 @@
 node_modules/
-env
+*env
 
 
-test1
+test2
