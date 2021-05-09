@@ -6,8 +6,8 @@ let sequelize = require('./db');
 var user = require('./controllers/usercontroller');
 var project = require('./controllers/projectcontroller');
 
-sequelize.sync();
-// sequelize.sync({ force: true });
+// sequelize.sync();
+sequelize.sync({ force: true });
 
 app.use(require('./middleware/headers'));
 
