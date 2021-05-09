@@ -2,13 +2,8 @@ const router = require('express').Router();
 const Project = require('../db').import('../models/project');
 const validateSession = require('../middleware/validate-session');
 
-//      #################################
-//      ##       WORKING ROUTES        ##
-//      #################################
-
 // Create project (Post)
 router.post('/', validateSession, function (req, res) {
-  // res.send('Hey! This is the create project route!')
   let name = req.body.project.name;
   let category = req.body.project.category;
   let planned = req.body.project.planned;
@@ -48,12 +43,10 @@ router.put('/:id', validateSession, function (req, res) {
   const value = req.body.value
 
   const query = { where: { id: req.params.id }, returning: true  };
-  console.log(column, value, query)
 
   Project.update({[column]: value}, query)
   .then(
     (project) => {
-      console.log(project)
       res.status(200)
     .json(project[1][0])
     })
@@ -66,11 +59,6 @@ router.get('/', function (req, res) {
   .then((project) => res.status(200).json(project))
   .catch((err) => res.status(500).json({ error: err }));
 });
-
-//      #################################
-//      ##       BROKEN ROUTES        ##
-//      #################################
-
 
 // Delete project (Delete)
 router.delete('/:id', validateSession, function (req, res) {
@@ -104,7 +92,6 @@ router.get('/:category', (req, res) => {
 // Get Project by ID
 router.get('/id/:projectid', function (req, res) {
   let projectid = req.params.projectid;
-  console.log(projectid);
   const query = { where: { id: projectid } };
   
   
@@ -116,21 +103,5 @@ router.get('/id/:projectid', function (req, res) {
   .catch((err) => res.status(500).json({ error: err }));
   
 });
-
-//      #################################
-//      ##       STRETCH GOALS         ##
-//      #################################
-
-// View project by views (Get)
-// router.get("/:id", (req, res) => {
-  //     let category = req.params.category
-  //     Recipe.findAll({
-    //         where: { category: category }
-    //     })
-    //     .then((project) => res.status(200).json(project))
-    //     .catch((err) => res.status(500).json({ error: err }));
-    // })
-    
-    // View by cook time (Stretch-Get)
     
     module.exports = router;
