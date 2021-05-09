@@ -3,20 +3,7 @@ const User = require('../db').import('../models/user');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
 
-// CREATE BUILT IN ADMIN USER WHEN NO USERS EXIST
-User.count().then(numberOfUsers => {
-	console.log(numberOfUsers)
-	if (numberOfUsers === 0) {
-			User.create({
-				firstname: process.env.DEFAULT_ADMIN,
-				lastname: process.env.DEFAULT_ADMIN,
-				username: process.env.DEFAULT_ADMIN,
-				email: process.env.DEFAULT_ADMIN_EMAIL,
-				password: bcrypt.hashSync(process.env.DEFAULT_ADMIN_PASSWORD, 13),
-				isAdmin: true
-			})
-	}
-})
+
 
 //      #################################
 //      ##       WORKING ROUTES        ##
